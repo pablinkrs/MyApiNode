@@ -1,0 +1,32 @@
+{
+  "name": "myserver",
+  "version": "1.0.0",
+  "description": "Mi primera api en nodejs",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pablinkrs/PablinkServer.git"
+  },
+  "author": "PablinkRS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pablinkrs/PablinkServer/issues"
+  },
+  "homepage": "https://github.com/pablinkrs/PablinkServer#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "connect-multiparty": "^2.0.0",
+    "dev": "^0.1.3",
+    "express": "^4.15.3",
+    "jwt-simple": "^0.5.1",
+    "moment": "^2.18.1",
+    "mongoose": "^4.11.1",
+    "mongoose-pagination": "^1.0.0",
+    "nodemon": "^1.11.0"
+  }
+}
