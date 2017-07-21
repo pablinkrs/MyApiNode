@@ -43,10 +43,10 @@ function login(req,res){
 
   User.findOne({email: email}, (err,user) => {
     if(err){
-      res.status(500);
+      res.status(500).send("error bd");
     } else {
       if(!user){
-        res.status(404);
+        res.status(404).send("error busqueda");
       } else {
         bcrypt.compare(password,user.password,function(err, check){
           if(check){
@@ -56,7 +56,7 @@ function login(req,res){
               res.status(200).send({user});
             }
           } else {
-            res.status(404);
+            res.status(404).send("error password");
           }
         });
       }
@@ -102,10 +102,11 @@ function avatar(req,res){
 }
 function getImageFile(req,res){
   var imageFile = req.params.imageFile;
-
-  fs.exists(imageFile,function(exists){
+  fs.exists("./public/images/"+imageFile,function(exists){
     if(exists){
-      res.sendFile(path.resolve(imageFile));
+      res.sendFile(path.resolve("./public/images/"+imageFile));
+    } else {
+      res.status(200).send({mensaje: "no existe archivo"});
     }
   });
 }
