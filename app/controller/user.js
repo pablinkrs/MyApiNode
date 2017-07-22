@@ -79,6 +79,22 @@ var UserController = {
       }
     });
   },
+  delete: function(req, res){
+    var artistId = req.params.id;
+    var update = req.body;
+
+    User.findByIdAndRemove(artistId,update,(err, removed) => {
+      if(err){
+        res.status(500).send("error al guardar");
+      } else{
+        if(!removed){
+          res.status(404).send("no se ha guardado guardar");
+        } else {
+            res.status(200).send({User: removed});
+        }
+      }
+    });
+  },
   session:{
     login: function (req,res){
       var params = req.body;
@@ -128,8 +144,6 @@ var UserController = {
             res.status(200).send({user: img});
           }
         });
-
-        console.log(file_up);
       }
     },
     get: function (req,res){

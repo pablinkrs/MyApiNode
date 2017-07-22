@@ -13,14 +13,19 @@ var files = mdFile.uploadFiles();
 api.post("/listUser",jwt.ensureAuth,controllers.User.getAll);
 api.post("/oneUser/:id",jwt.ensureAuth,controllers.User.getOne);
 api.post("/createUser",controllers.User.create);
-api.put("/updateUser/:id",jwt.ensureAuth,controllers.User.update);
+api.post("/updateUser/",jwt.ensureAuth,controllers.User.update);
 api.post("/login",controllers.User.session.login);
 api.post("/logout",controllers.User.session.logout);
-api.post("/avatar/:id",[jwt.ensureAuth, files.avatar],controllers.User.avatar.upload);
-api.post("/getavatar/:imageFile",controllers.User.avatar.get);
+api.post("/uploadAvatar",[jwt.ensureAuth, files.avatar],controllers.User.avatar.upload);
+api.post("/getavatar",controllers.User.avatar.get);
 
+api.post("/listArtist/:page?",jwt.ensureAuth, controllers.Artist.getAll);
 api.post("/oneArtist/:id",jwt.ensureAuth, controllers.Artist.getOne);
 api.post("/createArtist",jwt.ensureAuth, controllers.Artist.create);
-api.post("/listArtist/:page?",jwt.ensureAuth, controllers.Artist.getAll);
+api.post("/uploadImgArtist",[jwt.ensureAuth, files.avatar],controllers.Artist.image.upload);
+api.post("/deleteArtist",jwt.ensureAuth, controllers.Artist.delete);
+api.post("/getImgArtist",controllers.Artist.image.get);
+
+api.post("/createAlbum",jwt.ensureAuth, controllers.Album.create);
 
 module.exports = api;

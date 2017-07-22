@@ -4,8 +4,9 @@ var express = require("express");
 
 var Controllers = {
   Artist: require("./artist"),
-  User: require("./user")
-}
+  User: require("./user"),
+  Album: require("./album")
+};
 
 
 module.exports = Controllers;

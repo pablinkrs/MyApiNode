@@ -5,103 +5,100 @@ var fs = require("fs");
 var pagition = require("mongoose-pagination");
 
 var models = require("../model/master");
-var Artist = models.Artist;
+var Album = models.Album;
 
-var ArtistController = {
+var AlbumController = {
   getAll: function (req, res){
-    var page = req.params.page ? req.params.page : 1;
+    var page = req.body.page ? req.body.page : 1;
+    var artistId = req.body.artist;
     var itemsPP = 2;
-    Artist.find().sort("name").paginate(page, itemsPP, (err, artists, total) => {
+    var find = Album.find().sort("title");
+    if(artistId){
+      find = Album.find({artist: artistId}).sort("year");
+    }
+    find.populate({path: "artist"}).paginate(page, itemsPP, (err, albums, total) => {
       if(err){
         res.status(500).send("error al guardar");
       } else{
         if(!artists){
           res.status(404).send("no se ha guardado guardar");
         } else {
-            res.status(200).send({artists: artists, total:total});
+          res.status(200).send({albums: albums, total:total});
         }
       }
     });
   },
   getOne: function(req, res){
-    var artistId = req.params.id;
+    var albumId = req.body.id;
 
-    Artist.findById(artistId,(err, object) => {
+    Album.findById(albumId).populate({path: "artist"}).exec((err, object) => {
       if(err){
         res.status(500).send({mensaje: "error al buscar"});
       } else {
         if(!object){
-            res.status(404).send({mensaje: "busqueda no encontrada"});
+          res.status(404).send({mensaje: "busqueda no encontrada"});
         } else{
-          res.status(200).send({artist: object});
+          res.status(200).send({album: object});
         }
       }
     });
   },
   create: function (req, res){
-    var artist = new Artist();
+    var album = new Album();
 
     var params = req.body;
-    artist.name = params.name;
-    artist.description = params.description;
-    artist.image = "null";
+    album.title = params.title;
+    album.description = params.description;
+    album.year = params.year;
+    album.artist = params.artist;
+    album.image = "null";
 
-    artist.save((err, saved) => {
+    album.save((err, saved) => {
       if(err){
         res.status(500).send("error al guardar");
       } else {
         if(!saved){
           res.status(404).send("no se ha guardado guardar");
         } else {
-            res.status(200).send({artist: saved});
+          res.status(200).send({album: saved});
         }
       }
     })
   },
   update: function (req, res){
-    var artistId = req.params.id;
     var update = req.body;
+    var albumId = update.id;
 
-    Artist.findByIdAndUpdate(artistId,update,(err, updated) => {
+    Album.findByIdAndUpdate(albumId,update,(err, updated) => {
       if(err){
         res.status(500).send("error al guardar");
       } else{
         if(!updated){
           res.status(404).send("no se ha guardado guardar");
         } else {
-            res.status(200).send({artists: updated});
+          res.status(200).send({album: updated});
         }
       }
     });
   },
   delete: function(req, res){
-    var artistId = req.params.id;
+    var albumId = req.body.id;
 
-    Artist.findByIdAndRemove(artistId,(err, artist) => {
+    Album.findByIdAndRemove(albumId,(err, album) => {
       if(err){
         res.status(500).send("error al guardar");
       } else{
-        if(!artist){
+        if(!album){
           res.status(404).send("no se ha guardado guardar");
         } else {
-          models.Album.find({artist: artist._id}).remove((err, album) => {
+          models.Song.find({album: album._id}).remove((err, song) => {
             if(err){
               res.status(500).send("error al guardar");
             } else{
-              if(!album){
+              if(!song){
                 res.status(404).send("no se ha guardado guardar");
               } else {
-                models.Song.find({album: album._id}).remove((err, song) => {
-                  if(err){
-                    res.status(500).send("error al guardar");
-                  } else{
-                    if(!song){
-                      res.status(404).send("no se ha guardado guardar");
-                    } else {
-                        res.status(200).send({artist: artist});
-                    }
-                  }
-                });
+                res.status(200).send({album: album});
               }
             }
           });
@@ -111,20 +108,20 @@ var ArtistController = {
   },
   image:{
     upload: function (req,res){
-      var artistId = req.body.id;
+      var albumId = req.body.id;
 
       if(req.files){
         var file_up = req.files.image;
 
-        var art = {
+        var alb = {
           image: file_up.path
         };
 
-        Artist.findByIdAndUpdate(artistId,art, (err, img) =>{
+        Album.findByIdAndUpdate(albumId,alb, (err, img) =>{
           if(!img){
             res.status(404);
           } else {
-            res.status(200).send({artist: img});
+            res.status(200).send({album: img});
           }
         });
       }
@@ -142,4 +139,4 @@ var ArtistController = {
   }
 };
 
-module.exports = ArtistController
+module.exports = AlbumController
