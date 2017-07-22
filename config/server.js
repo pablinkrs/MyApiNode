@@ -5,13 +5,14 @@ var bodyParser = require("body-parser");
 
 var app = express();
 
-var user_routes = require("./routes");
+var routes = require("./routes");
 
 app.secret = "pablo2389";
+app.filtro = "/api";
 
 app.use(bodyParser.urlencoded({limit: '50mb', extended:true}));
 app.use(bodyParser.json());
 
-app.use("/api",user_routes);
+app.use(app.filtro,routes);
 
 module.exports = app;
