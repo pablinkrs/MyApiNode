@@ -12,11 +12,19 @@ var SongController = {
     var page = req.body.page ? req.body.page : 1;
     var albumId = req.body.album;
     var itemsPP = 2;
-    var find = Song.find().sort("title");
+    var find = {};
+    var sort = "title";
     if(artistId){
-      find = Song.find({album: albumId}).sort("year");
+      find = {album: albumId};
+      sort = "year"
     }
-    find.populate({path: "album"}).paginate(page, itemsPP, (err, songs, total) => {
+    Song.find(find).sort(sort).populate({
+        path: "album",
+        populate{
+          path: "artist",
+          model: "Artist"
+        }
+      }).paginate(page, itemsPP, (err, songs, total) => {
       if(err){
         res.status(500).send("error al guardar");
       } else{
@@ -31,7 +39,13 @@ var SongController = {
   getOne: function(req, res){
     var songId = req.body.id;
 
-    Song.findById(songId).populate({path: "album"}).exec((err, object) => {
+    Song.findById(songId).populate({
+        path: "album",
+        populate{
+          path: "artist",
+          model: "Artist"
+        }
+      }).exec((err, object) => {
       if(err){
         res.status(500).send({mensaje: "error al buscar"});
       } else {
@@ -96,22 +110,22 @@ var SongController = {
       }
     });
   },
-  image:{
+  file:{
     upload: function (req,res){
-      var albumId = req.body.id;
+      var songId = req.body.id;
 
       if(req.files){
         var file_up = req.files.image;
 
-        var alb = {
-          image: file_up.path
+        var sng = {
+          file: file_up.path
         };
 
-        Album.findByIdAndUpdate(albumId,alb, (err, img) =>{
+        Song.findByIdAndUpdate(songId,sng, (err, img) =>{
           if(!img){
             res.status(404);
           } else {
-            res.status(200).send({album: img});
+            res.status(200).send({song: img});
           }
         });
       }
