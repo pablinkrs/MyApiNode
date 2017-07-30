@@ -8,11 +8,14 @@ import { User } from './models/user';
 export class AppComponent {
   public title = 'Pablinkfy';
   public user: User;
-  public identity = true;
+  public identity = false;
   public token;
 
   constructor(){
     this.user = new User('','','','','','ROLE_USER','');
+  }
 
+  public login(){
+    console.log(this.user);
   }
 }

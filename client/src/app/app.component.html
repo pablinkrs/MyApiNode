@@ -7,3 +7,32 @@
 <div *ngIf="identity" class="central col-xs-9">
   <p>Estas logueado en la pagina</p>
 </div>
+
+<div class="col-xs-12" *ngIf="!identity">
+  <div class="col-xs-6">
+    <h1>Identificate</h1>
+    <form #loginForm="ngForm" class="col-xs-8 col-xs-offset-2" (ngSubmit)="login()" >
+      <label >Email</label>
+      <input type="email" #email="ngModel" name="email" [(ngModel)]="user.email" class="form-control" required>
+      <label >Password</label>
+      <input type="password" #password="ngModel" name="password" [(ngModel)]="user.password" class="form-control" required >
+
+      <input type="submit" class="btn btn-primary btn-block" value="Entrar">
+    </form>
+  </div>
+  <div class="col-xs-6">
+    <h1>Registrate</h1>
+    <form class="col-xs-8 col-xs-offset-2" >
+      <label >Nombre</label>
+      <input type="text" class="form-control" required value="">
+      <label >Apellido</label>
+      <input type="text" class="form-control" required value="">
+      <label >Email</label>
+      <input type="text" class="form-control" required value="">
+      <label >Password</label>
+      <input type="password" class="form-control" required value="">
+
+      <input type="subit" class="btn btn-primary btn-block" value="Registrarse">
+    </form>
+  </div>
+</div>
