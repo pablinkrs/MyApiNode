@@ -15,7 +15,6 @@ api.post("/oneUser/:id",jwt.ensureAuth,controllers.User.getOne);
 api.post("/createUser",controllers.User.create);
 api.post("/updateUser/",jwt.ensureAuth,controllers.User.update);
 api.post("/login",controllers.User.session.login);
-api.post("/logout",controllers.User.session.logout);
 api.post("/uploadAvatar",[jwt.ensureAuth, files.avatar],controllers.User.avatar.upload);
 api.post("/getavatar",controllers.User.avatar.get);
 

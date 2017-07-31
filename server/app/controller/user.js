@@ -98,33 +98,29 @@ var UserController = {
   session:{
     login: function (req,res){
       var params = req.body;
-
       var email = params.email;
       var password = params.password;
 
       User.findOne({email: email}, (err,user) => {
         if(err){
-          res.status(500).send("error bd");
+          res.send({mensaje: "error bd"});
         } else {
           if(!user){
-            res.status(404).send("error busqueda");
+            res.send({mensaje: "email no encontrado"});
           } else {
             bcrypt.compare(password,user.password,function(err, check){
               if(check){
-                if(params.gethash){
-                  res.status(200).send({token: jwt.createToken(user)});
-                } else {
-                  res.status(200).send({user});
-                }
+                res.send({
+                  user: user,
+                  token: jwt.createToken(user)});
               } else {
-                res.status(404).send("error password");
+                res.send({mensaje: "password erronea"});
               }
             });
           }
         }
       });
-    },
-    logout: function(req,res){}
+    }
   },
   avatar:{
     upload: function (req,res){
