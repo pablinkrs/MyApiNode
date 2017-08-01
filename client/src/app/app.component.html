@@ -23,17 +23,17 @@
   </div>
   <div class="col-xs-6">
     <h1>Registrate</h1>
-    <form class="col-xs-8 col-xs-offset-2" >
+    <form #registerForm="ngForm" class="col-xs-8 col-xs-offset-2" (ngSubmit)="register()">
       <label >Nombre</label>
-      <input type="text" class="form-control" required value="">
+      <input type="text" class="form-control" #name="ngModel" name="name" [(ngModel)]="userNew.name" required value="">
       <label >Apellido</label>
-      <input type="text" class="form-control" required value="">
+      <input type="text" class="form-control" #surname="ngModel" name="surname" [(ngModel)]="userNew.surname" required value="">
       <label >Email</label>
-      <input type="text" class="form-control" required value="">
+      <input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="userNew.email" required value="">
       <label >Password</label>
-      <input type="password" class="form-control" required value="">
+      <input type="password" class="form-control" #password="ngModel" name="password" [(ngModel)]="userNew.password" required value="">
 
-      <input type="subit" class="btn btn-primary btn-block" value="Registrarse">
+      <input type="submit" class="btn btn-primary btn-block" value="Registrarse">
     </form>
   </div>
 </div>

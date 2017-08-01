@@ -52,10 +52,9 @@ var UserController = {
     if(params.password){
       bcrypt.hash(params.password,null, null,function(err, hash){
         user.password = hash;
-
-        user.save((err,res)=>{
+        user.save((err,user)=>{
           if(err){} else{
-            console.log("todo genial");
+            res.status(200).send({user: user});
           }
         });
       });
