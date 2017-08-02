@@ -12,11 +12,13 @@ export class ServiceApp{
     this.url = GLOBAL.url;
   }
 
-  llamadaApi (ruta,data) {
+  llamadaApi (ruta,data, auth = false) {
     let json = JSON.stringify(data);
+    let Authorization = auth ? this.getStorage("token") : "";
     let headers = new Headers(
     {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': Authorization
     }
     );
     return this._http.post(this.url+ruta,json,{headers: headers}).map(res => res.json());
