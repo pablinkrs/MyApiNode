@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http'
-
+import { routing, appRoutingProvider } from './app.routing';
 import { AppComponent } from './app.component';
 import { UserMant } from './components/user.mant';
 
@@ -14,9 +14,12 @@ import { UserMant } from './components/user.mant';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    routing
   ],
-  providers: [],
+  providers: [
+    appRoutingProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

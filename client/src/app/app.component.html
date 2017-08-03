@@ -3,11 +3,32 @@
   <h1>
     {{title}}!!
   </h1>
+  <nav id="navigation">
+    <a href="#">
+      <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+      Artistas
+    </a>
+    <a href="#">
+      <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+      Albums
+    </a>
+  </nav>
+  <nav id="user_logged">
+    <span>
+      {{identity.name}}
+    </span>
+    <span class="btn btn-warning" (click)="logout()">
+      Cerrar Sesion.
+    </span>
+    <a [routerLink]="['/mis-datos']">
+      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+      Mis Datos
+    </a>
+  </nav>
 </div>
 <div *ngIf="identity" class="central col-xs-9">
   <p>Estas logueado en la pagina</p>
-  <user-mant></user-mant>
-  <button type="button" class="btn btn-primary" name="button" (click)="logout()">Salir</button>
+  <router-outlet></router-outlet>
 </div>
 
 <div class="col-xs-12" *ngIf="!identity">
