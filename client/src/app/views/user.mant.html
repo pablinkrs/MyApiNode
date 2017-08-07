@@ -1,4 +1,38 @@
-<div class="col-xs-6" *ngIf="identity" >
+<div class="col-xs-12" *ngIf="identity" >
   <h1>{{titulo}}</h1>
-  <p>esta todo chido</p>
+  <button type="button" class="btn btn-primary" (click)="modalUsuario(true,'crear')">
+  Crear
+</button>
+  <button type="button" class="btn btn-primary" (click)="modalUsuario(true,'editar',true)">
+  Editar Mi Perfil
+</button>
+
+  <div class="modal fade in" id="modalUser" *ngIf="mantener">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="createUser">Crear Usuario</h5>
+          <h5 class="modal-title" *ngIf="!createUser">Editar Usuario</h5>
+          <button type="button" class="close" (click)="modalUsuario(false)">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #registerForm="ngForm" class="" (ngSubmit)="mantendor()">
+            <label >Nombre</label>
+            <input type="text" class="form-control" #name="ngModel" name="name" [(ngModel)]="user.name" required value="">
+            <label >Apellido</label>
+            <input type="text" class="form-control" #surname="ngModel" name="surname" [(ngModel)]="user.surname" required value="">
+            <label >Email</label>
+            <input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="user.email" required value="">
+            <label >Password</label>
+            <input type="password" class="form-control" #password="ngModel" name="password" [(ngModel)]="user.password" required value="">
+
+            <input type="submit" class="btn btn-primary btn-block" *ngIf="createUser" value="Guardar">
+            <input type="submit" class="btn btn-primary btn-block" *ngIf="!createUser" value="Editar">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

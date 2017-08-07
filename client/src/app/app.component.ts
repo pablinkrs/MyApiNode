@@ -50,19 +50,5 @@ export class AppComponent implements OnInit {
     this.token = this._serviceApp.removeStorage('token');
   }
 
-  public register(){
-    console.log(this.userNew);
-    var res = this._serviceApp.llamadaApi('createUser',this.userNew).subscribe(
-    response => {
-      console.log(response.user);
-      this.resetForms();
-    },
-    error => {
-      var errorMessage = <any>error;
-
-      if(errorMessage != null){
-        console.log(error);
-      }
-    });
-  }
+  
 }

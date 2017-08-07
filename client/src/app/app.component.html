@@ -27,7 +27,6 @@
   </nav>
 </div>
 <div *ngIf="identity" class="central col-xs-9">
-  <p>Estas logueado en la pagina</p>
   <router-outlet></router-outlet>
 </div>
 
@@ -41,21 +40,6 @@
       <input type="password" #password="ngModel" name="password" [(ngModel)]="user.password" class="form-control" required >
 
       <input type="submit" class="btn btn-primary btn-block" value="Entrar">
-    </form>
-  </div>
-  <div class="col-xs-6">
-    <h1>Registrate</h1>
-    <form #registerForm="ngForm" class="col-xs-8 col-xs-offset-2" (ngSubmit)="register()">
-      <label >Nombre</label>
-      <input type="text" class="form-control" #name="ngModel" name="name" [(ngModel)]="userNew.name" required value="">
-      <label >Apellido</label>
-      <input type="text" class="form-control" #surname="ngModel" name="surname" [(ngModel)]="userNew.surname" required value="">
-      <label >Email</label>
-      <input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="userNew.email" required value="">
-      <label >Password</label>
-      <input type="password" class="form-control" #password="ngModel" name="password" [(ngModel)]="userNew.password" required value="">
-
-      <input type="submit" class="btn btn-primary btn-block" value="Registrarse">
     </form>
   </div>
 </div>
