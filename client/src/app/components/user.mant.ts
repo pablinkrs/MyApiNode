@@ -32,12 +32,25 @@ export class UserMant implements OnInit {
       this.createUser = false;
     }
   }
-  public mantendor(){
+  public modalPassword(accion, diferente = false, usr = null){
+    this.mantener = accion;
+    if(diferente && accion){
+      this.user = usr
+    } else if(accion) {
+      this.user = this.identity;
+    }
+  }
+  public mantendor(accion = false){
     console.log(this.user);
     var ruta = this.createUser ? "createUser":"updateUser";
+    ruta = accion? "changePassword":ruta;
     var res = this._serviceApp.llamadaApi(ruta,this.user, true).subscribe(
     response => {
-      this.modalUsuario(false);
+      if(!accion){
+        this.modalUsuario(false);
+      } else {
+        this.modalPassword(false);
+      }
     },
     error => {
       var errorMessage = <any>error;

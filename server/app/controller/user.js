@@ -121,6 +121,33 @@ var UserController = {
       });
     }
   },
+  password:{
+    set: function (req,res){
+      var params = req.body;
+      var id = params.id;
+      var password = params.passwordOld;
+      var password = params.passwordNew;
+
+      User.findById(id, (err,user) => {
+        if(err){
+          res.send({mensaje: "error bd"});
+        } else {
+          if(!user){
+            res.send({mensaje: "email no encontrado"});
+          } else {
+            bcrypt.hash(params.passwordNew,null, null,function(err, pass){
+              user.password = pass;
+              user.save((err,user)=>{
+                if(err){} else{
+                  res.status(200).send({user: user});
+                }
+              });
+            });
+          }
+        }
+      });
+    }
+  },
   avatar:{
     upload: function (req,res){
       var userId = req.params.id;
