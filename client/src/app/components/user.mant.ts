@@ -26,9 +26,9 @@ export class UserMant implements OnInit {
   public modalUsuario(accion, tipo = "crear",cual = false){
     this.user = cual?this.identity:new User('','','','','','ROLE_USER','');
     this.mantener = accion;
-    if(tipo == "crear"){
+    if(tipo == "crear" && accion){
       this.createUser = true;
-    } else {
+    } else if(accion) {
       this.createUser = false;
     }
   }
@@ -41,12 +41,16 @@ export class UserMant implements OnInit {
     }
   }
   public mantendor(accion = false){
-    console.log(this.user);
     var ruta = this.createUser ? "createUser":"updateUser";
     ruta = accion? "changePassword":ruta;
     var res = this._serviceApp.llamadaApi(ruta,this.user, true).subscribe(
     response => {
       if(!accion){
+        if(!this.createUser && this.identity._id == this.user._id){
+          this._serviceApp.setStorage("identity", JSON.stringify(this.user));
+          this.identity = this.user;
+          document.getElementById("identityApp").innerHTML = this.identity.name;
+        }
         this.modalUsuario(false);
       } else {
         this.modalPassword(false);

@@ -63,8 +63,8 @@ var UserController = {
     }
   },
   update: function (req,res){
-    var userId = req.params.id;
     var userNew = req.body;
+    var userId = userNew._id;
 
     User.findByIdAndUpdate(userId,userNew, (err,user) => {
       if(err){
