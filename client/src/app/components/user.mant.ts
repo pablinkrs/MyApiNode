@@ -13,6 +13,7 @@ export class UserMant implements OnInit {
   public token;
   public identity;
   public mantener;
+  public mantenerImagen;
   public createUser;
 
 
@@ -40,9 +41,40 @@ export class UserMant implements OnInit {
       this.user = this.identity;
     }
   }
+  public modalImagen(accion, diferente = false, usr = null){
+    this.mantenerImagen = accion;
+    if(diferente && accion){
+      this.user = usr
+    } else if(accion) {
+      this.user = this.identity;
+    }
+  }
   public mantendor(accion = false){
     var ruta = this.createUser ? "createUser":"updateUser";
     ruta = accion? "changePassword":ruta;
+    var res = this._serviceApp.llamadaApi(ruta,this.user, true).subscribe(
+    response => {
+      if(!accion){
+        if(!this.createUser && this.identity._id == this.user._id){
+          this._serviceApp.setStorage("identity", JSON.stringify(this.user));
+          this.identity = this.user;
+          document.getElementById("identityApp").innerHTML = this.identity.name;
+        }
+        this.modalUsuario(false);
+      } else {
+        this.modalPassword(false);
+      }
+    },
+    error => {
+      var errorMessage = <any>error;
+
+      if(errorMessage != null){
+        console.log(error);
+      }
+    });
+  }
+  public mantendorImagen(accion = false, fileInput: any){
+    var ruta = "updateUser";
     var res = this._serviceApp.llamadaApi(ruta,this.user, true).subscribe(
     response => {
       if(!accion){

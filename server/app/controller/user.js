@@ -150,7 +150,7 @@ var UserController = {
   },
   avatar:{
     upload: function (req,res){
-      var userId = req.params.id;
+      var userId = req.body.id;
 
       if(req.files){
         var file_up = req.files.image;
