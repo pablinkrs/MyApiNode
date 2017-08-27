@@ -15,6 +15,7 @@ export class UserMant implements OnInit {
   public mantener;
   public mantenerImagen;
   public createUser;
+  public fileToUpload;
 
 
   constructor(private _serviceApp: ServiceApp) {}
@@ -73,20 +74,20 @@ export class UserMant implements OnInit {
       }
     });
   }
-  public mantendorImagen(accion = false, fileInput: any){
-    var ruta = "updateUser";
-    var res = this._serviceApp.llamadaApi(ruta,this.user, true).subscribe(
+  public changeFile(fileInput: any){
+    this.fileToUpload = <Array<File>>fileInput;
+  }
+  public mantendorImagen(){
+    var ruta = "uploadAvatar";
+
+    var res = this._serviceApp.llamadaApi(ruta,{user: this.user, files: this.fileToUpload}, true, true).subscribe(
     response => {
-      if(!accion){
-        if(!this.createUser && this.identity._id == this.user._id){
-          this._serviceApp.setStorage("identity", JSON.stringify(this.user));
-          this.identity = this.user;
-          document.getElementById("identityApp").innerHTML = this.identity.name;
-        }
-        this.modalUsuario(false);
-      } else {
-        this.modalPassword(false);
+      if(this.identity._id == this.user._id){
+        this._serviceApp.setStorage("identity", JSON.stringify(this.user));
+        this.identity = this.user;
+        document.getElementById("identityApp").innerHTML = this.identity.name;
       }
+      this.modalUsuario(false);
     },
     error => {
       var errorMessage = <any>error;

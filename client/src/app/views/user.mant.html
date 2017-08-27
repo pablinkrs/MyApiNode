@@ -6,6 +6,9 @@
   <button type="button" class="btn btn-primary" (click)="modalUsuario(true,'editar',true)">
   Editar Mi Perfil
 </button>
+  <button type="button" class="btn btn-primary" (click)="modalImagen(true)">
+  Editar Mi Foto Perfil
+</button>
 
   <div class="modal fade in" id="modalUser" *ngIf="mantener">
     <div class="modal-dialog" role="document">
@@ -72,14 +75,14 @@
           </button>
         </div>
         <div class="modal-body">
-          <form #registerForm="ngForm" class="" (ngSubmit)="mantendorImagen()">
-            <label *ngIf="createUser">Imagen Anterior</label>
-            <div class="col-xs-6 col-xs-offset-3" *="user.image && user.image != 'null'">
+          <form #imageForm="ngForm" class="" (ngSubmit)="mantendorImagen()">
+            <label >Imagen Anterior</label>
+            <div class="col-xs-6 col-xs-offset-3" *ngIf="user.image && user.image != 'null'">
               <img src="" alt="">
             </div>
             <label *ngIf="createUser">Seleccione una imagen</label>
 
-            <input type="file" class="form-control" #passwordold="ngModel" name="passwordold" [(ngModel)]="user.passwordold" required value="">
+            <input type="file" class="form-control" (change)="changeFile($event.target.files)" required value="">
             <input type="submit" class="btn btn-primary btn-block" value="Confirmar">
           </form>
         </div>

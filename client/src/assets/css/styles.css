@@ -1,6 +1,6 @@
 body{
   background-color: green;
 }
-#modalUser{
+.modal.fade.in{
   display: block;
 }

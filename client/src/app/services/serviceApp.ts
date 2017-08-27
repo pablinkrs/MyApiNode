@@ -15,14 +15,33 @@ export class ServiceApp{
   llamadaApi (ruta,data, auth = false, formFile = false) {
     let json = JSON.stringify(data);
     let Authorization = auth ? this.getStorage("token") : "";
-    let content = formFile?"application/x-www-form-urlencoded":"application/json";
+    let content = "application/json";
+
     let headers = new Headers(
     {
       'Content-Type': content,
       'Authorization': Authorization
     }
     );
-    return this._http.post(this.url+ruta,json,{headers: headers}).map(res => res.json());
+    var rtnPost;
+    var form = new FormData();
+    console.log(formFile);
+    if(formFile){
+      content = "multipart/form-data"
+      /* content = "application/x-www-form-urlencoded" */
+      console.log(data.files);
+      for(var i = 0; i<data.files.length; i++){
+        console.log(data.files[i]);
+        form.append("image", data.files[i]);
+      }
+      form.append("_id",data.user._id);
+      console.log(form);
+      rtnPost = this._http.post(this.url+ruta,form,{headers: headers}).map(res => res.json());
+    }
+    else{
+      rtnPost = this._http.post(this.url+ruta,json,{headers: headers}).map(res => res.json());
+    }
+    return rtnPost;
   }
 
   getStorage(tipo){

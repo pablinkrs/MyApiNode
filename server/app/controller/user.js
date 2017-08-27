@@ -152,8 +152,11 @@ var UserController = {
     upload: function (req,res){
       var userId = req.body.id;
 
+        console.log(req);
+        console.log(req.body.files);
       if(req.files){
-        var file_up = req.files.image;
+        console.log(req.files.imageNew);
+        var file_up = req.files.imageNew;
 
         var usr = {
           image: file_up.path
